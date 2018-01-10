@@ -16,7 +16,6 @@
 package com.vaadin.flow.demo.helloworld;
 
 import com.vaadin.router.Route;
-import com.vaadin.shared.Registration;
 import com.vaadin.ui.common.HtmlImport;
 import com.vaadin.ui.html.Label;
 import com.vaadin.ui.layout.HorizontalLayout;
@@ -31,31 +30,30 @@ import java.util.Random;
 @Route("")
 public class MainView extends VerticalLayout {
 
-    private static final String[] symbols = {"♠", "♣", "♥", "♦"};
-    private static final String[] ranks = {"a", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"};
-
+    private Label label = new Label("Pick two cards:");
     private GameCard card1;
+    private boolean gameOver = false;
 
     public MainView() {
+        label.setClassName("title");
+        add(label);
         Random random = new Random(System.currentTimeMillis());
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             HorizontalLayout horizontalLayout = new HorizontalLayout();
             add(horizontalLayout);
 
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < 5; j++) {
                 GameCard card = new GameCard();
-                card.setSymbol(symbols[random.nextInt(symbols.length)]);
-                card.setRank(ranks[random.nextInt(ranks.length)]);
+                card.setSymbol(GameCard.SYMBOLS[random.nextInt(GameCard.SYMBOLS.length)]);
+                card.setRank(GameCard.RANKS[random.nextInt(GameCard.RANKS.length)]);
                 card.setFlippable(true);
                 card.setUnrevealed(true);
 
                 card.getElement().addEventListener("click", e -> cardClicked(card));
-
                 horizontalLayout.add(card);
             }
         }
-
     }
 
     private void cardClicked(GameCard card) {
@@ -63,17 +61,13 @@ public class MainView extends VerticalLayout {
 
         if (card1 == null || card1.equals(card)) {
             card1 = card;
-        } else {
-            removeAll();
-            Label label = new Label();
-            label.setClassName("label");
-            add(label, new HorizontalLayout(card1, card));
-
+        } else if (!gameOver) {
             if (card1.getSymbol().equals(card.getSymbol())) {
                 label.setText("You win!!!");
             } else {
                 label.setText("Refresh the browser and try again!");
             }
+            gameOver = true;
         }
     }
 

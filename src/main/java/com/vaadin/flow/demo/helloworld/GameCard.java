@@ -12,6 +12,9 @@ import com.vaadin.ui.polymertemplate.PolymerTemplate;
 @HtmlImport("bower_components/game-card/game-card.html")
 public class GameCard extends PolymerTemplate<GameCard.Model> implements TemplateModel {
 
+    public static final String[] SYMBOLS = {"♠", "♣", "♥", "♦"};
+    public static final String[] RANKS = {"a", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"};
+
     public interface Model extends TemplateModel {
         String getSymbol();
 

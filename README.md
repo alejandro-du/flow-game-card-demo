@@ -10,3 +10,5 @@ mvn package jetty:run
 ```
 
 Point your web browser to [http://localhost:8080](http://localhost:8080).
+
+![Screenshot](/screenshot-01.png?raw=true "Screenshot")
